@@ -5,12 +5,13 @@ import * as auth0 from 'auth0-js';
   providedIn: 'root'
 })
 export class AuthService {
+  userProfile: any;
   auth0 = new auth0.WebAuth({
     clientID: 'dFoTO3kPyodBDqYqYB11SFWtcFloF5VY',
     domain: 'carlossk.auth0.com',
     responseType: 'token id_token',
     redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor(public router: Router) {}
@@ -54,5 +55,19 @@ export class AuthService {
     // Access Token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
     return new Date().getTime() < expiresAt;
+  }
+  public getProfile(cb): void {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('Access Token must exist to fetch profile');
+    }
+
+    const self = this;
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        self.userProfile = profile;
+      }
+      cb(err, profile);
+    });
   }
 }
