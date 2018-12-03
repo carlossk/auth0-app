@@ -7,11 +7,12 @@ import * as auth0 from 'auth0-js';
 export class AuthService {
   userProfile: any;
   auth0 = new auth0.WebAuth({
-    clientID: 'dFoTO3kPyodBDqYqYB11SFWtcFloF5VY',
-    domain: 'carlossk.auth0.com',
+    clientID: 'XXXXXXXXXXXX',
+    domain: 'XXXXXXXXX',
     responseType: 'token id_token',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'XXXXXXXXXXXXXXX',
     scope: 'openid profile'
+
   });
 
   constructor(public router: Router) {}
